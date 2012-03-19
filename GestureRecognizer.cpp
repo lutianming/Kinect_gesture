@@ -117,6 +117,15 @@ double GestureRecognizer::dtw(const Sequence &seq1, const Sequence &seq2)
             bestMatch = tab[i][seq2r.size()];
         }
     }
+    if(bestMatch < globalThreshold){
+        for(int i  = 1; i < seq1r.size()+1; i++){
+            std::cout << "----------------------------------------"<< std::endl;
+            for(int j = 1; j < seq2r.size()+1; j++){
+                std::cout << tab[i][j] << "\t|";
+            }
+            std::cout << std::endl;
+        }
+    }
     return bestMatch;
 }
 

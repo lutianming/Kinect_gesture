@@ -43,6 +43,7 @@ void MainWindow::handleFrame()
         string s = m_recognizer.recognize(buffer);
  //       std::cout << "gesture:" << s << std::endl;
         if(s != "UNKNOWN"){
+         ui->outputTextEdit->appendPlainText(QString("gesture").append(s.c_str()));
          std::cout << "gesture" << s << std::endl;
         }
         if(s != GESTURE_UNKNOWN){

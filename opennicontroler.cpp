@@ -1,4 +1,5 @@
 #include "opennicontroler.h"
+//OpenNI驱动控制，不包含Qt元素，可以直接在VS中使用
 XnBool OpenNIControler::needPose = false;
 OpenNIControler::OpenNIControler()
 {

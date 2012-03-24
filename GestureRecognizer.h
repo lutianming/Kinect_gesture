@@ -11,7 +11,8 @@ const string GESTURE_LEFT_SWIPE_RIGHT = "LEFT_SWIPE_RIGHT";
 const string GESTURE_RIGHT_SWIPE_LEFT = "RIGHT_SWIPE_LEFT";
 const string GESTURE_RIGHT_SWIPE_RIGHT = "RIGHT_SWIPE_RIGHT";
 const int SKELETON_INFO_SIZE = 12; //the 6 X and 6 Y coordinates of hands, elbows and shoulder
-typedef vector<vector<double> > Sequence;
+typedef vector<vector<double> > Sequence;  //一个Sequence的dim为32*12
+//手势识别主类
 class GestureRecognizer
 {
 public:

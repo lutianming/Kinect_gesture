@@ -35,6 +35,7 @@ private:
     int last_frames;
     vector<vector<double> > buffer;
 
+//slots为按钮的处理函数
 private slots:
     void loadGestures();
     void saveGestures();

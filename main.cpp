@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
         return 1;
     }
     QApplication a(argc, argv);
-    // Timer to update image
     KinectReader KReader( mOpenNI);
 
     MainWindow window(KReader);

@@ -2,6 +2,8 @@
 #include <QPainter>
 #include <math.h>
 #define MAX_DEPTH 10000
+//定时读取kinect深度信息并显示
+//需要绘制图像到界面上，Qt相关，VS需要改写
 void KinectReader::timerEvent( QTimerEvent *event )
 {
   // Read OpenNI data
@@ -20,6 +22,7 @@ void KinectReader::timerEvent( QTimerEvent *event )
   }
 
   // redistribute data to 0-255
+  //转换为RGB图像，这里只使用蓝色，用深浅来表示深度远近
   int idx = 0;
   for( unsigned int i = 1; i < iSize; ++ i )
   {
@@ -39,7 +42,7 @@ void KinectReader::timerEvent( QTimerEvent *event )
     }
     ++pDepth;
   }
-    //draw skeleton joints
+  //绘制上肢骨架，红色
   QImage img(m_pDepthRGB, m_OpenNI.m_DepthMD.XRes(), m_OpenNI.m_DepthMD.YRes(), QImage::Format_RGB32);
   QPainter painter(&img);
   QPen pen(QColor::fromRgb(255,0,0));
@@ -48,24 +51,13 @@ void KinectReader::timerEvent( QTimerEvent *event )
   for(int i = 0; i < JOINT_SIZE-1; i++){
       painter.drawLine((int)(jointsProj[i].X), (int)(jointsProj[i].Y), (int)(jointsProj[i+1].X), (int)(jointsProj[i+1].Y));
   }
-  // Update Depth data
+  //显示
   m_pItemDepth->setPixmap( QPixmap::fromImage(img));
-
-  // Update Image data
-//  m_pItemImage->setPixmap( QPixmap::fromImage(
-//    QImage( m_OpenNI.m_ImageMD.Data(),
-//            m_OpenNI.m_ImageMD.XRes(), m_OpenNI.m_ImageMD.YRes(),
-//            QImage::Format_RGB888 ) )
-//  );
 }
 
 bool KinectReader::init()
 {
     m_OpenNI.start();
-
-    // add an empty Image to scene
-  //  m_pItemImage = m_Scene.addPixmap( QPixmap() );
-  //  m_pItemImage->setZValue( 1 );
 
     // add an empty Depth to scene
     m_pItemDepth = m_Scene.addPixmap( QPixmap() );
@@ -86,6 +78,7 @@ void KinectReader::stop()
 {
     killTimer(timerID);
 }
+//更新骨架信息
 void KinectReader::updateSkeletonInfo()
 {
     user_num = MAX_NUM_USERS;
@@ -106,6 +99,7 @@ void KinectReader::updateSkeletonInfo()
         break;
     }
 }
+//转换骨架信息为我们需要的12点序列
 void KinectReader::updateSkeletonSeq()
 {
     double centerX = (jointsReal[2].X + jointsReal[3].X) / 2;

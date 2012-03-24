@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+//不包含Qt元素，VS可直接使用
 GestureRecognizer::GestureRecognizer(int dim, double threshold, double firstThreshold, int maxslope, double minlength)
 {
     this->dimonsion = dim;
@@ -83,6 +84,7 @@ double GestureRecognizer::dtw(const Sequence &seq1, const Sequence &seq2)
     tab[0][0] = 0;
 
     //Dynamic computation of the DTW matrix
+    //max_slope保证路径斜率不会过大
     for(int i = 1; i < seq1r.size()+1; i++)
     {
         for(int j = 1; j < seq2r.size()+1; j++)
@@ -116,7 +118,8 @@ double GestureRecognizer::dtw(const Sequence &seq1, const Sequence &seq2)
         {
             bestMatch = tab[i][seq2r.size()];
         }
-    }
+   }
+    //打印出DTW计算矩阵
    if((bestMatch / seq2r.size()) < globalThreshold){
     std::cout << bestMatch << std::endl;
     std::cout << "---------------------------------------------"<< std::endl;
